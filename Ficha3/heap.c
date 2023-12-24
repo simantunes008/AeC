@@ -1,3 +1,4 @@
+#include <heap.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -18,9 +19,8 @@ void swap(int * a, int * b) {
     * b = temp;
 }
 
-/* 
-** 2.
-*/
+// 2.
+
 void bubbleUp(int i, int h[]) {
     int pai = pai(i);
 
@@ -34,9 +34,8 @@ void bubbleUp(int i, int h[]) {
 // P.C. -> O elemento está no último nível da min-heap e tem de ir para a raiz - O(log n)
 
 
-/* 
-** 3.
-*/
+// 3.
+
 void bubbleDown(int i, int h[], int size) {
     while (esquerda(i) < size) {
         int min = esquerda(i);
@@ -57,20 +56,20 @@ void bubbleDown(int i, int h[], int size) {
 // P.C. -> O elemento está na raiz da min-heap e tem de ir para o último nível - O(log n)
 
 
-/* 
-** 4.
-** a)
-*/
+// 4. a)
+
 void empty(PriorityQueue * q) {
     q -> tamanho = 0;
 }
 
 // b)
+
 int isEmpty(PriorityQueue * q) {
     return (q -> tamanho == 0);
 }
 
 // c)
+
 int add(int x, PriorityQueue * q) {
     if (q -> tamanho + 1 >= Max) {
         return 1;
@@ -82,6 +81,7 @@ int add(int x, PriorityQueue * q) {
 }
 
 // d)
+
 int myremove(PriorityQueue * q, int * rem) {
     if (isEmpty(q)) {
         return 1;
@@ -93,9 +93,8 @@ int myremove(PriorityQueue * q, int * rem) {
     return 0;
 }
 
-/* 
-** 5.
-*/
+// 5.
+
 void heapify_top_down(int v[], int N) {
     for (int i = 1; i < N; i++) {
         bubbleUp(i, v);
@@ -108,9 +107,8 @@ void heapify_bottom_up(int v[], int N) {
     }
 }
 
-/* 
-** 6.
-*/
+// 6.
+
 void ordenaHeap(int h[], int N) {
     for (int i = N - 1; i >= 0; i--) {
         swap(&h[0], &h[i]);
@@ -119,8 +117,7 @@ void ordenaHeap(int h[], int N) {
 }
 
 /* 
-** 7.
-** P.C. -> Os k maiores elementos estão no final da sequência.
-** Para cada inserção na heap à um custo de O(log k)
-** N - k inserções -> O((N - k) * log k)
+7.  P.C. -> Os k maiores elementos estão no final da sequência. 
+    Para cada inserção na heap à um custo de O(log k)
+    N - k inserções -> O((N - k) * log k) 
 */
