@@ -1,4 +1,4 @@
-# AeC
+# Algoritmos e Complexidade
 Alguns exercícios escitos em C sobre estrturas de dados.
 
 ## Ficha 3
