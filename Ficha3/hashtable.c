@@ -1,7 +1,8 @@
-#include <hashtable.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include <hashtable.h>
 
 #define Free 0
 #define Used 1
@@ -118,7 +119,7 @@ void initEmptyOA(THashOA t) {
     }
 }
 
-// b)
+// b) 
 
 void addOA(char * s, THashOA t) {
     unsigned i = hash(s);

@@ -1,6 +1,7 @@
-#include <heap.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#include <heap.h>
 
 #define pai(i) ((i - 1) / 2)
 #define esquerda(i) (2 * (i) + 1)
