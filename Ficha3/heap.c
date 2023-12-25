@@ -32,7 +32,7 @@ void bubbleUp(int i, int h[]) {
     }
 }
 
-// P.C. -> O elemento está no último nível da min-heap e tem de ir para a raiz - O(log n)
+// P.C. -> O elemento está no último nível da min-heap e tem de ir para a raiz - Θ(log N)
 
 
 // 3.
@@ -54,7 +54,7 @@ void bubbleDown(int i, int h[], int size) {
     }
 }
 
-// P.C. -> O elemento está na raiz da min-heap e tem de ir para o último nível - O(log n)
+// P.C. -> O elemento está na raiz da min-heap e tem de ir para o último nível - Θ(log N)
 
 
 // 4. a)
@@ -119,6 +119,6 @@ void ordenaHeap(int h[], int N) {
 
 /* 
 7.  P.C. -> Os k maiores elementos estão no final da sequência. 
-    Para cada inserção na heap à um custo de O(log k)
-    N - k inserções -> O((N - k) * log k) 
+    Para cada inserção na heap à um custo de Θ(log k)
+    N - k inserções -> Θ((N - k) * log k) 
 */
