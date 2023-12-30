@@ -8,4 +8,4 @@ Min-heaps e Tabelas de Hash.
 Grafos.
 
 ## Outros
-Árvores AVL.
+Árvores AVL e testes.
