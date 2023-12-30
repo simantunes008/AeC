@@ -149,3 +149,4 @@ int AVL_treeHeight(Tree t) {
         return 1 + AVL_treeHeight(t -> right);
     }
 }
+    

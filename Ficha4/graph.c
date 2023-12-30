@@ -23,11 +23,11 @@ void imprimeListaAdj(GrafoL g) {
     }
 }
 
-// Representações
+// 1 Representações
 
 // 1.
 
-void fromMat (GrafoM in, GrafoL out) {
+void fromMat(GrafoM in, GrafoL out) {
     for (int i = 0; i < NV; i++) {
         out[i] = NULL;
         for (int j = NV - 1; j >= 0; j--) {
@@ -35,11 +35,7 @@ void fromMat (GrafoM in, GrafoL out) {
                 LAdj novo = malloc(sizeof(struct aresta));
                 novo -> dest = j;
                 novo -> custo = in[i][j];
-                if (out[i] == NULL) {
-                    novo -> prox = NULL;
-                } else {
-                    novo -> prox = out[i];
-                }
+                novo -> prox = out[i];
                 out[i] = novo;
             }
         }
@@ -59,11 +55,7 @@ void inverte(GrafoL in, GrafoL out) {
             LAdj novo = malloc(sizeof(struct aresta));
             novo -> dest = i;
             novo -> custo = atual -> custo;
-            if (out[atual -> dest] == NULL) {
-                novo -> prox = NULL;
-            } else {
-                novo -> prox = out[atual -> dest];
-            }
+            novo -> prox = out[atual -> dest];
             out[atual -> dest] = novo;
             atual = atual -> prox;
         }
@@ -74,25 +66,23 @@ void inverte(GrafoL in, GrafoL out) {
 // 3.
 
 int inDegree_v1(GrafoL g) {
-    int mg = 0;
+    int maxInDegree = 0;
     for (int i = 0; i < NV; i++) {
-        LAdj atual = g[i];
-        int ga = 0;
+        int inDegree = 0;
         for (int j = 0; j < NV; j++) {
-            LAdj temp = g[j];
-            while (temp != NULL) {
-                if (temp -> dest == i) {
-                    ga++;
+            LAdj atual = g[j];
+            while (atual != NULL) {
+                if (atual -> dest == i) {
+                    inDegree++;
                 }
-                temp = temp -> prox;
+                atual = atual -> prox;
             }
         }
-        if (ga > mg) {
-            mg = ga;
+        if (inDegree > maxInDegree) {
+            maxInDegree = inDegree;
         }
     }
-
-    return mg;
+    return maxInDegree;
 }
 
 int inDegree_v2(GrafoL g) {
@@ -115,7 +105,7 @@ int inDegree_v2(GrafoL g) {
 
 // 4.
 
-int colorOK (GrafoL g, int cor[]) {
+int colorOK(GrafoL g, int cor[]) {
     for (int i = 0; i < NV; i++) {
         LAdj atual = g[i];
         while (atual != NULL) {
@@ -135,7 +125,7 @@ int homomorfOK(GrafoL g, GrafoL h, int f[]) {
         LAdj atualg = g[i];
         while (atualg != NULL) {
             int ga = i;
-            int gb = atualg->dest;
+            int gb = atualg -> dest;
 
             int ha = f[ga];
             int hb = f[gb];
@@ -148,23 +138,136 @@ int homomorfOK(GrafoL g, GrafoL h, int f[]) {
                     e = 1;
                     break;
                 }
-                atualh = atualh->prox;
+                atualh = atualh -> prox;
             }
 
             if (!e) {
-                return e;
+                return 0;
             }
-
-            atualg = atualg->prox;
+            
+            atualg = atualg -> prox;
         }
     }
     return 1;
 }
 
-// Travessias...
+// 2 Travessias
+
+int DFRec(GrafoL g, int or, int v[], int p[], int l[]) {
+    int i;
+    LAdj a;
+    i = 1;
+    v[or] = -1;
+    for (a = g[or]; a != NULL; a = a->prox)
+        if (!v[a->dest]) {
+            p[a->dest] = or;
+            l[a->dest] = 1 + l[or];
+            i += DFRec(g, a->dest, v, p, l);
+        }
+    v[or] = 1;
+    return i;
+}
+
+int DF(GrafoL g, int or, int v[], int p[], int l[]) {
+    int i;
+    for (i = 0; i < NV; i++) {
+        v[i] = 0;
+        p[i] = -1;
+        l[i] = -1;
+    }
+    p[or] = -1;
+    l[or] = 0;
+    return DFRec(g, or, v, p, l);
+}
+
+int BF(GrafoL g, int or, int v[], int p[], int l[]) {
+    int i, x;
+    LAdj a;
+    int q[NV], front, end;
+    
+    for (i = 0; i < NV; i++) {
+        v[i] = 0;
+        p[i] = -1;
+        l[i] = -1;
+    }
+
+    front = end = 0;
+    q[end++] = or; // enqueue
+    v[or] = 1;
+    l[or] = 0;
+    p[or] = -1; // redundante
+    i = 1;
+
+    while (front != end) {
+        x = q[front++]; // dequeue
+
+        for (a = g[x]; a != NULL; a = a->prox) {
+            if (!v[a -> dest]) {
+                i++;
+                v[a -> dest] = 1;
+                p[a -> dest] = x;
+                l[a -> dest] = 1 + l[x];
+                q[end++] = a -> dest; // enqueue
+            }
+        }
+    }
+
+    return i;
+}
+
+// 1.
+
+int maisLonga(GrafoL g, int or, int p[]) {
+    int max, x;
+    LAdj atual;
+    int v[NV], f[NV], l[NV], q[NV], front, end;
+
+    for (int i = 0; i < NV; i++) {
+        v[i] = 0;
+        f[i] = -1;
+        l[i] = -1;
+    }
+
+    front = end = max = 0;
+    q[end++] = or;
+    v[or] = 1;
+    l[or] = 0;
+    f[or] = -1;
+    p[0] = or;
+
+    while (front != end) {
+        x = q[front++];
+
+        for (atual = g[x]; atual != NULL; atual = atual -> prox) {
+            if (!v[atual -> dest]) {
+                q[end++] = atual->dest;
+                v[atual -> dest] = 1;
+                l[atual -> dest] = 1 + l[x];
+                f[atual -> dest] = x;
+
+                if (l[atual -> dest] > max) {
+                    max = l[atual -> dest];
+                    int maisLonge = atual -> dest, temp = max;
+                    while (f[maisLonge] != -1) {
+                        p[temp--] = maisLonge;
+                        maisLonge = f[maisLonge];
+                    }
+                }
+            }
+        }
+    }
+
+    return max;
+}
+
+// 2.
+
+int componentes(GrafoL g, int c[]) {
+    return 0;
+}
 
 int main() {
-    GrafoM m = {
+    GrafoM grafoM = {
         {0, 5, 0, 2, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 8, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 2, 0, 0, 0, 2},
@@ -177,9 +280,8 @@ int main() {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
 
-    GrafoL l;
-    fromMat(m, l);
-    imprimeListaAdj(l);
+    GrafoL grafoL;
+    fromMat(grafoM, grafoL);
 
     return 0;
 }

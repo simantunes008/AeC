@@ -5,7 +5,7 @@
  * @struct nodo
  * @brief Estrutura para representar um nodo de uma Closed Adressing Hash Table.
  */
-typedef struct nodo Nodo, * THashC;
+typedef struct nodo Nodo, * THashC[];
 
 /**
  * @struct bucket
