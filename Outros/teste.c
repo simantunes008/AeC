@@ -3,7 +3,7 @@
 
 typedef struct avlnode {
     int valor;
-    int bal; // 0 para equilibrada, 1 para mais pesada à direita, -1 para mais pesada à esquerda
+    int bal; // Usei 0 para equilibrada, 1 para mais pesada à direita, -1 para mais pesada à esquerda
     struct avlnode * esq;
     struct avlnode * dir;
 } * AVLTree;
