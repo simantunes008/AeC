@@ -1,9 +1,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-// 2. b)
-
 #define H 0
+
+// 1.
+// [_,_,_,_,_,_,_,_,8,_,_]
+// [_,_,_,_,_,_,_,18,8,_,_]
+// [_,_,_,_,_,_,_,18,8,7,_]
+// [_,_,_,_,_,_,_,18,8,7,10]
+// [_,_,_,_,_,_,_,18,_,7,10]
+// [_,_,_,_,_,_,_,18,29,7,10]
+// [20,_,_,_,_,_,_,18,29,7,10]
+
+// 2. a) 
+
+// b)
 
 int checkAVLRecursiva(int t[], int or, int N, int * alt) {
     if (or >= N || t[or] == H) {
@@ -39,3 +50,9 @@ int main() {
     }
     return 0;
 }
+
+// 3. a) e b)
+// https://visualgo.net/en/dfsbfs
+// Ir ao site acima, meter o grafo e confirmar.
+
+// 4.
